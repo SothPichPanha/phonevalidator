@@ -43,11 +43,11 @@ ValidNumber     = [0-9]{8,9}
     String prefix = yytext().substring(4, 7);
 
     if (prefix.matches("010|016|069|070|076|086|096|093"))
-        System.out.println("Valid Cambodia Number → Smart");
+        System.out.println(yytext()+" : Valid Cambodia Number → Smart");
     else if (prefix.matches("031|060|066|067|068|090|097"))
-        System.out.println("Valid Cambodia Number → Metfone");
+        System.out.println(yytext()+": Valid Cambodia Number → Metfone");
     else
-        System.out.println("Valid Cambodia Number → Cellcard");
+        System.out.println(yytext()+": Valid Cambodia Number → Cellcard");
 }
 
 /* ============================
@@ -57,33 +57,32 @@ ValidNumber     = [0-9]{8,9}
     String prefix = yytext().substring(0,3);
 
     if (prefix.matches("010|016|069|070|076|086|096|093"))
-        System.out.println("Valid Cambodia Number → Smart");
+        System.out.println(yytext()+" :Valid Cambodia Number → Smart");
     else if (prefix.matches("031|060|066|067|068|090|097"))
-        System.out.println("Valid Cambodia Number → Metfone");
+        System.out.println(yytext()+":Valid Cambodia Number → Metfone");
     else
-        System.out.println("Valid Cambodia Number → Cellcard");
+        System.out.println(yytext()+":Valid Cambodia Number → Cellcard");
 }
 
 /* ============================
    Other Countries (Your 5)
    ============================ */
 
-^{VietnamNum}$    { System.out.println("Valid Number → Vietnam"); }
-^{LaosNum}$       { System.out.println("Valid Number → Laos"); }
-^{ChinaNum}$      { System.out.println("Valid Number → China"); }
-^{SingaporeNum}$  { System.out.println("Valid Number → Singapore"); }
-^{JapanNum}$      { System.out.println("Valid Number → Japan"); }
+^{VietnamNum}$    { System.out.println(yytext()+":Valid Number → Vietnam"); }
+^{ChinaNum}$      { System.out.println(yytext()+": Valid Number → China"); }
+^{SingaporeNum}$  { System.out.println(yytext()+": Valid Number → Singapore"); }
+^{JapanNum}$      { System.out.println(yytext()+": Valid Number → Japan"); }
 
 /* ============================
    Valid but Unknown Country
    ============================ */
 ^{ValidNumber}$ {
-    System.out.println("Valid Number → Unknown Country");
+    System.out.println(yytext()+": Valid Number → Unknown Country");
 }
 
 /* ============================
    Invalid Number
    ============================ */
 .* {
-    System.out.println("Invalid Phone Number");
+    System.out.println(yytext()+": Invalid Phone Number");
 }
