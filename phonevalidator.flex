@@ -5,52 +5,37 @@
 %public
 %standalone
 
-%{
+/* ============================
+   Macro Definitions (must be before the second %%)
+   ============================ */
 
-private String operator = "OTHER_COUNTRY";
-
-public String getOperator() {
-    return operator;
-}
-
-%}
-
-%%
-
-/* Cambodian number formats */
 CambodiaPrefixSmart     = (010|016|069|070|076|086|096)
 CambodiaPrefixMetfone   = (031|060|066|067|068|090|097)
 CambodiaPrefixCellcard  = (011|012|014|017|018|061|077|078)
 
-/* Cambodia country code formats */
-CambodiaCode = (0|\+?855)
+CambodiaCode            = (0|\+?855)
 
-/* Full Cambodian phone patterns */
-CambodiaSmart      = {CambodiaCode}?{CambodiaPrefixSmart}[0-9]{6,7}
-CambodiaMetfone    = {CambodiaCode}?{CambodiaPrefixMetfone}[0-9]{6,7}
-CambodiaCellcard   = {CambodiaCode}?{CambodiaPrefixCellcard}[0-9]{6,7}
+CambodiaSmart      = {CambodiaCode}{CambodiaPrefixSmart}[0-9]{6,7}
+CambodiaMetfone    = {CambodiaCode}{CambodiaPrefixMetfone}[0-9]{6,7}
+CambodiaCellcard   = {CambodiaCode}{CambodiaPrefixCellcard}[0-9]{6,7}
 
 %%
 
 {CambodiaSmart} {
-    operator = "SMART";
-    System.out.println("Cambodia Number - Operator: " + operator);
+    System.out.println("Cambodia Number - Operator: SMART");
 }
 
 {CambodiaMetfone} {
-    operator = "METFONE";
-    System.out.println("Cambodia Number - Operator: " + operator);
+    System.out.println("Cambodia Number - Operator: METFONE");
 }
 
 {CambodiaCellcard} {
-    operator = "CELLCARD";
-    System.out.println("Cambodia Number - Operator: " + operator);
+    System.out.println("Cambodia Number - Operator: CELLCARD");
 }
 
-/* If it doesn't match Cambodia -> Other country */
+/* If not match -> other country */
 [0-9\+\-]+ {
-    operator = "OTHER_COUNTRY";
     System.out.println("Not Cambodia - Other Country");
 }
 
-.|\n { /* ignore other characters */ }
+.|\n { /* ignore */ }
