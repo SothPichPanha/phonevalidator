@@ -72,6 +72,7 @@ ValidNumber     = [0-9]{8,9}
 ^{ChinaNum}$      { System.out.println(yytext()+": Valid Number → China"); }
 ^{SingaporeNum}$  { System.out.println(yytext()+": Valid Number → Singapore"); }
 ^{JapanNum}$      { System.out.println(yytext()+": Valid Number → Japan"); }
+^{LaosNum}$      { System.out.println(yytext()+": Valid Number → Laos"); }
 
 /* ============================
    Valid but Unknown Country
@@ -83,6 +84,7 @@ ValidNumber     = [0-9]{8,9}
 /* ============================
    Invalid Number
    ============================ */
+
 .* {
     System.out.println(yytext()+": Invalid Phone Number");
 }
