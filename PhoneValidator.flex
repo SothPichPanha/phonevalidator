@@ -7,21 +7,21 @@
 
 
 /* Valid 8–9 digit number */
-ValidNumber     = [0-9]{8,9}
+ValidNumber     = [0-9]{9,10}
 /* ============================
    Cambodia Prefix Definitions
    ============================ */
-SmartPrefix     = (010|016|069|070|076|086|096|093)
-MetfonePrefix   = (031|060|066|067|068|090|097)
-CellcardPrefix  = (011|012|014|017|018|061|077|078|095)
+SmartPrefix = (010|015|016|069|070|071|076|077|078|079|086|087|089|093|095|096|098|099)
+MetfonePrefix = (031|060|061|066|067|068|071|088|089|090|097)
+CellcardPrefix = (011|012|014|015|017|018|061|077|078|085|089|095|098|099)
 
 CambodiaPrefix  = ({SmartPrefix}|{MetfonePrefix}|{CellcardPrefix})
 
 /* Local Cambodia numbers: prefix + 5 or 6 digits */
-LocalCambodia   = {CambodiaPrefix}[0-9]{5,6}
+LocalCambodia   = {CambodiaPrefix}[0-9]{6,7}
 
 /* International Cambodia numbers (+855) */
-IntlCambodia    = \+855{CambodiaPrefix}[0-9]{5,6}
+IntlCambodia    = \+855{CambodiaPrefix}[0-9]{6,7}
 
 /* ============================
    Other Countries Prefix
@@ -40,7 +40,7 @@ JapanNum        = \+81[0-9]{6,10}
    Cambodia (+855)
    ============================ */
 ^{IntlCambodia} {
-    String prefix = yytext().substring(4, 7);
+    String prefix = yytext().substring(5, 8);
 
     if (prefix.matches("010|016|069|070|076|086|096|093"))
         System.out.println(yytext()+" : Valid Cambodia Number is Smart");
