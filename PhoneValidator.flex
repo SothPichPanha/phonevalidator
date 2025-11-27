@@ -8,6 +8,7 @@
 
 /* Valid 8–9 digit number */
 ValidNumber     = [0-9]{9,10}
+
 /* ============================
    Cambodia Prefix Definitions
    ============================ */
@@ -15,13 +16,10 @@ SmartPrefix = (010|015|016|069|070|071|076|077|078|079|086|087|089|093|095|096|0
 MetfonePrefix = (031|060|061|066|067|068|071|088|089|090|097)
 CellcardPrefix = (011|012|014|015|017|018|061|077|078|085|089|095|098|099)
 
-CambodiaPrefix  = ({SmartPrefix}|{MetfonePrefix}|{CellcardPrefix})
+SmartPrefixNo0 = (10|15|16|69|70|71|76|77|78|79|86|87|89|93|95|96|98|99)
+MetfonePrefixNo0 = (31|60|61|66|67|68|71|88|89|90|97)
+CellcardPrefixNo0 = (11|12|14|15|17|18|61|77|78|85|89|95|98|99)
 
-/* Local Cambodia numbers: prefix + 5 or 6 digits */
-LocalCambodia   = {CambodiaPrefix}[0-9]{6,7}
-
-/* International Cambodia numbers (+855) */
-IntlCambodia    = \+855{CambodiaPrefix}[0-9]{6,7}
 
 /* ============================
    Other Countries Prefix
@@ -32,59 +30,69 @@ ChinaNum        = \+86[0-9]{6,11}
 SingaporeNum    = \+65[0-9]{6,10}
 JapanNum        = \+81[0-9]{6,10}
 
-
-
 %%
 
 /* ============================
-   Cambodia (+855)
+   Cambodia (+855) - Smart
    ============================ */
-^{IntlCambodia} {
-    String prefix = yytext().substring(5, 8);
-
-    if (prefix.matches("010|016|069|070|076|086|096|093"))
-        System.out.println(yytext()+" : Valid Cambodia Number is Smart");
-    else if (prefix.matches("031|060|066|067|068|090|097"))
-        System.out.println(yytext()+": Valid Cambodia Number is Metfone");
-    else
-        System.out.println(yytext()+": Valid Cambodia Number is Cellcard");
+^\+855({SmartPrefix}|{SmartPrefixNo0})[0-9]{6,7} {
+    System.out.println(yytext()+" : Valid Cambodia Number is Smart");
 }
 
 /* ============================
-   Cambodia (Local)
+   Cambodia (+855) - Metfone
    ============================ */
-^{LocalCambodia} {
-    String prefix = yytext().substring(0,3);
+^\+855({MetfonePrefix}|{MetfonePrefixNo0})[0-9]{6,7} {
+    System.out.println(yytext()+" : Valid Cambodia Number is Metfone");
+}
 
-    if (prefix.matches("010|016|069|070|076|086|096|093"))
-        System.out.println(yytext()+" :Valid Cambodia Number is Smart");
-    else if (prefix.matches("031|060|066|067|068|090|097"))
-        System.out.println(yytext()+":Valid Cambodia Number is Metfone");
-    else
-        System.out.println(yytext()+":Valid Cambodia Number is Cellcard");
+/* ============================
+   Cambodia (+855) - Cellcard
+   ============================ */
+^\+855({CellcardPrefix}|{CellcardPrefixNo0})[0-9]{6,7} {
+    System.out.println(yytext()+" : Valid Cambodia Number is Cellcard");
+}
+
+/* ============================
+   Cambodia (Local) - Smart
+   ============================ */
+^{SmartPrefix}[0-9]{6,7} {
+    System.out.println(yytext()+" : Valid Cambodia Number is Smart");
+}
+
+/* ============================
+   Cambodia (Local) - Metfone
+   ============================ */
+^{MetfonePrefix}[0-9]{6,7} {
+    System.out.println(yytext()+" : Valid Cambodia Number is Metfone");
+}
+
+/* ============================
+   Cambodia (Local) - Cellcard
+   ============================ */
+^{CellcardPrefix}[0-9]{6,7} {
+    System.out.println(yytext()+" : Valid Cambodia Number is Cellcard");
 }
 
 /* ============================
    Other Countries (Your 5)
    ============================ */
-
-^{VietnamNum}   { System.out.println(yytext()+":Valid Number is Vietnam"); }
-^{ChinaNum}     { System.out.println(yytext()+": Valid Number is China"); }
-^{SingaporeNum} { System.out.println(yytext()+": Valid Number is Singapore"); }
-^{JapanNum}     { System.out.println(yytext()+": Valid Number is Japan"); }
-^{LaosNum}     { System.out.println(yytext()+": Valid Number is Laos"); }
+^{VietnamNum}   { System.out.println(yytext()+" : Valid Number is Vietnam"); }
+^{ChinaNum}     { System.out.println(yytext()+" : Valid Number is China"); }
+^{SingaporeNum} { System.out.println(yytext()+" : Valid Number is Singapore"); }
+^{JapanNum}     { System.out.println(yytext()+" : Valid Number is Japan"); }
+^{LaosNum}      { System.out.println(yytext()+" : Valid Number is Laos"); }
 
 /* ============================
    Valid but Unknown Country
    ============================ */
 ^{ValidNumber} {
-    System.out.println(yytext()+": Valid Number -> Unknown Country");
+    System.out.println(yytext()+" : Valid Number -> Unknown Country");
 }
 
 /* ============================
    Invalid Number
    ============================ */
-
 .* {
-    System.out.println(yytext()+": Invalid Phone Number");
+    System.out.println(yytext()+" : Invalid Phone Number");
 }
